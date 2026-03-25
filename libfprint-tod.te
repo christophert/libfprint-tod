@@ -1,0 +1,19 @@
+
+module libfprint-tod 1.0;
+
+require {
+	type tmpfs_t;
+	type fprintd_t;
+	type fprintd_tmp_t;
+	type init_t;
+	class file { create getattr link map open read unlink write };
+}
+
+#============= fprintd_t ==============
+allow fprintd_t tmpfs_t:file { create getattr link open read unlink write };
+
+#!!!! This avc can be allowed using the boolean 'domain_can_mmap_files'
+allow fprintd_t tmpfs_t:file map;
+
+#============= init_t ==============
+allow init_t fprintd_tmp_t:file unlink;
